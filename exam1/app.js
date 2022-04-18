@@ -1,3 +1,4 @@
+const { request } = require("express");
 const express = require("express");
 const app = express();
 
@@ -18,18 +19,44 @@ app.get("/books", (request, response, next) => {
   });
 });
 
-app.get("/authors", (request, response, next) => {
-  console.log("We are in /authors route");
+function checkPermission(str) {
+  if (str === "authors") {
+    return true;
+  } else if ((str = "librarian")) {
+    return true;
+  }
+}
+app.get(
+  "/authors",
+  (request, response, next) => {
+    console.log("We are in /authors route");
+    if (checkPermission("authors")) {
+      // console.log("hi");
+      next();
+      // console.log("hi");
+    } else {
+      response.send("Error");
+    }
+  },
+  (request, response, next) => {
+    response.json({
+      "The Art of Living - A Guide to Contentment, Joy and Fulfilment":
+        "The Dalai Lama",
+    });
+  }
+);
 
-  response.json({
-    "The Art of Living - A Guide to Contentment, Joy and Fulfilment":
-      "The Dalai Lama",
-  });
-});
-
-app.get("/libraries", (request, response, next) => {
-  console.log("We are in /libraries route");
-  response.send("/libraries");
-});
+app.get(
+  "/libraries",
+  (request, response, next) => {
+    if (checkPermission("librarian")) {
+      next();
+    }
+  },
+  (request, response, next) => {
+    console.log("We are in /libraries route");
+    response.send("/libraries");
+  }
+);
 
 module.exports = app;
