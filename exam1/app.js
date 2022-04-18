@@ -19,18 +19,21 @@ app.get("/books", (request, response, next) => {
   });
 });
 
-function checkPermission(str) {
+function checkPermission(str, request) {
   if (str === "authors") {
+    request.permission = true;
     return true;
   } else if ((str = "librarian")) {
+    request.permission = true;
     return true;
   }
 }
+
 app.get(
   "/authors",
   (request, response, next) => {
     console.log("We are in /authors route");
-    if (checkPermission("authors")) {
+    if (checkPermission("authors", request)) {
       // console.log("hi");
       next();
       // console.log("hi");
@@ -49,7 +52,7 @@ app.get(
 app.get(
   "/libraries",
   (request, response, next) => {
-    if (checkPermission("librarian")) {
+    if (checkPermission("librarian", request)) {
       next();
     }
   },
