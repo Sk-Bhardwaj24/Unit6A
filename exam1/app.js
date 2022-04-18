@@ -1,42 +1,35 @@
-// API/END POINT/URL/ROUTE//PATH
-
 const express = require("express");
 const app = express();
-const cors = require("cors");
+
 const logger = require("./Utility/logger");
-//Logger
+
 app.use((request, response, next) => {
-  let time = new Date();
-  console.log(time + " " + request.url);
-  next();
-});
-//Wrting logs in file
-app.use((request, response, next) => {
-  logger.info("This is information log");
-  logger.error("This is the error log");
-  logger.warn("This is the warn log");
+  logger.info(`This is ${request.path} route`);
+
   next();
 });
 
-let whiteListOrigin = ["http://localhost:9008"];
-let corsOption = {
-  origin: (origin, callback) => {
-    if (whiteListOrigin.indexOf(origin) != -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Origin Not Allowed"));
-    }
-  },
-};
-app.use(cors(corsOption));
+app.get("/books", (request, response, next) => {
+  console.log("We are in books router");
 
-app.get("/user", (request, response, next) => {
-  console.log("We are in Middleware two");
-  response.send("Success");
+  response.json({
+    "The Art of Living - A Guide to Contentment, Joy and Fulfilment":
+      "The Dalai Lama is one of the most beloved spiritual leaders of our age. In this book, he brings his wisdom and practical advice on how anyone (Buddhists as well as people from all faiths or none) can live a meaningful, joyful life.",
+  });
 });
-app.post("/create-user", (request, response, next) => {
-  console.log("We are in Middleware two");
-  response.status(500).json({ error: "Some error occured" });
+
+app.get("/authors", (request, response, next) => {
+  console.log("We are in /authors route");
+
+  response.json({
+    "The Art of Living - A Guide to Contentment, Joy and Fulfilment":
+      "The Dalai Lama",
+  });
+});
+
+app.get("/libraries", (request, response, next) => {
+  console.log("We are in /libraries route");
+  response.send("/libraries");
 });
 
 module.exports = app;
