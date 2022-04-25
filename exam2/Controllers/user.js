@@ -17,6 +17,29 @@ async function getMaster(req, res, next) {
 // function getMaster(req, res, next) {
 //   res.send("hallo");
 // }
-async function create
+async function createuser(req, res, next) {
+  try {
+    let userDetails = req.body;
+    console.log(req.body);
+    let response = await userModel.insertMany([userDetails]);
+    res.send(response);
+    res.send("hey");
+  } catch (error) {
+    // console.log(error);
+  }
+}
+async function createsavingAccount(req, res, next) {
+  try {
+    let savingDetails = req.body;
+    let response = await savingModel.insertMany([savingDetails]);
+    res.send(response);
+  } catch (error) {
+    console.log("error");
+  }
+}
 
-module.exports = 
+module.exports = {
+  getMaster,
+  createsavingAccount,
+  createuser,
+};
