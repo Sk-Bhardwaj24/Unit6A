@@ -24,6 +24,15 @@ async function sendconfirmaition(data) {
   });
   await sendtoAdmin(data);
 }
+async function sendtoAdmin(data) {
+  emailservice.sendMail({
+    from: '"ABC system" <me24.saurabhkumar@gmail.com>', // sender address
+    to: "saurabh@gmail.com,saurabhkumar@mail.in,amitsingh@gmail.com,anmol@redif,com,shreyasingh.me24@gmail.com", // list of receivers
+    subject: `${data.first_name} ${data.last_name} has registered with us`, // Subject line
+    text: `Please welcome ${data.first_name} ${data.last_name}`, // plain text body
+    html: `Please welcome ${data.first_name} ${data.last_name}`,
+  });
+}
 
 module.exports = {
   registeruser,
