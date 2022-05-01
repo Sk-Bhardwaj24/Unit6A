@@ -33,7 +33,19 @@ async function sendtoAdmin(data) {
     html: `Please welcome ${data.first_name} ${data.last_name}`,
   });
 }
+async function getuser(req, res, next) {
+  let pageNo = req.query.pageNo;
+  let pageSize = req.query.pageSize;
+  if (pageSize == undefined) {
+    pageSize = 100;
+  }
 
+  let skip = (pageNo - 1) * pageSize || 0;
+
+  const limit = req.query.limit || pageSize;
+  let alluser = await userModel.find({}).skip(skip).limit(limit);
+  res.json(alluser);
+}
 module.exports = {
   registeruser,
   getuser,
