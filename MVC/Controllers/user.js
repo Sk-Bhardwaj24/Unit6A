@@ -3,20 +3,21 @@ const parentModel = require("../Models/parents");
 const { default: mongoose } = require("mongoose");
 async function getAllUser(req, res, next) {
   try {
-    let response = await userModel
-      .find({})
-      .populate("employeId", { firstName: 1 });
-    res.json(response);
-    res.render("home", { name: `${response.firstName}`, age: 25 });
+    let response = await userModel.find({});
+    console.log(response[0].firstName);
+    // .populate("employeId", { firstName: 1 });
+    // res.json(response);
+    res.render("home", { name: `${response[0].firstName}`, age: 25 });
   } catch (error) {
     res.status(500).json(error);
   }
+  // res.send("hallo");
 }
 
 async function createUser(req, res, next) {
   //fetch info from request body
   try {
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     let userDetail = req.body;
     let response = await userModel.insertMany([userDetail]);
     console.log(response);
