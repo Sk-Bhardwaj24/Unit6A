@@ -6,7 +6,7 @@ const multer = require("multer");
 
 const diskStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(__dirname);
+    // console.log(__dirname);
     cb(null, `${__dirname}/public`);
   },
   filename: function (req, file, cb) {
@@ -23,7 +23,7 @@ const diskStorage = multer.diskStorage({
 const upload = multer({
   storage: diskStorage,
 });
-app.post("/register", userController.createUser);
+app.post("/register", upload.single("file"), userController.createUser);
 app.post("/books", userController.createbook);
 app.post("/comments", userController.createcomments);
 module.exports = app;
