@@ -5,8 +5,8 @@ const user = new mongoose.Schema({
   lastName: { type: String, minlength: 3, maxlength: 30 },
   age: { type: Number, required: true, min: 1, max: 150 },
 
-  email: { type: String, required: true },
-  profileImages: { type: File, required: true },
+  email: { type: String, required: true, unique: true },
+  profileImages: { type: String, required: true },
   timestamps: { type: String, required: true },
 });
 
